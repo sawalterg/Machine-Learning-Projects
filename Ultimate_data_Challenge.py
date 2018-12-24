@@ -146,7 +146,8 @@ onehotencoder = OneHotEncoder(categorical_features = [2])
 x = onehotencoder.fit_transform(x).toarray()
 
 # Remove one dummy variable from the countries one hot columns
-x = x[: , 1:] # Just take two dummy variables from the country
+np.delete(x, [2], axis=1)
+
 
 
                 
@@ -177,7 +178,7 @@ rider_df.isnull().sum()
 
 rider_df[rider_df['avg_rating_of_driver'].isnull()].head(15)
 
-# It doesn't look like this variable has much predictive value and is worth e
+# It doesn't look like this variable has much predictive value and is worth
 
 
 
@@ -196,7 +197,7 @@ x_test = sc_x.transform(x_test)
 
 
 # Fitting Logistic Regression to the training set 
-from sklearn.linear_model import LogisticRegression # LOGISTIC REGRESSION IS A CLASS BECAUSE IT CONTAINS CAPITALS
+from sklearn.linear_model import LogisticRegression 
 classifier = LogisticRegression(random_state = 0)       
 classifier.fit(x_train, y_train)        
 
@@ -205,11 +206,11 @@ y_pred = classifier.predict(x_test)
 
 # Making the Confusion Matrix
 
-from sklearn.metrics import confusion_matrix # THIS IS FUNCTION AS OPPOSED TO CLASS (CLASS CONTAINS CAPITALS)
+from sklearn.metrics import confusion_matrix 
 
 cm = confusion_matrix(y_test, y_pred)
 
-
+# 1. 
 
 
 ### PART 4 - Using PCA for feature extraction
@@ -229,7 +230,7 @@ x_test = sc_x.transform(x_test)
 
 # Applying Kernel PCA
 from sklearn.decomposition import KernelPCA
-kpca = KernelPCA(n_components = 2, kernel = 'rbf') # We will utilize a gaussian kernel
+kpca = KernelPCA(n_components = 2, kernel = 'rbf') 
 x_train = kpca.fit_transform(x_train)
 x_test = kpca.transform(x_test)
 
