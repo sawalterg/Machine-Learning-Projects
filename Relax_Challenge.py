@@ -31,18 +31,33 @@ grouped_user_df = pd.DataFrame({'user_id':grouped_user.index,'7_day_int': groupe
 
 df_user_merged = df_users.merge(grouped_user_df, left_on = 'object_id', right_on = 'user_id', how = 'inner') 
 
-df_user_merged = df_user_merged.drop(columns = ['object_id', 'invited_by_user_id','user_id', '7_day_int', 'name', 'email', 'creation_time', 'last_session_creation_time'])
+df_user_merged = df_user_merged.drop(columns = ['object_id', 'invited_by_user_id','user_id', 'name', 'email', 'creation_time', 'last_session_creation_time'])
+
+
+"""from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+labelencoder_X_1 = LabelEncoder()
+df_user_merged['creation_source'] = labelencoder_X_1.fit_transform(df_user_merged['creation_source'])
 
 
 
 
-x = df_user_merged.iloc[:,:-1].values
-y = df_user_merged.iloc[:,-1].values
+
+onehotencoder = OneHotEncoder(categorical_features = [0])
+df_user_merged = onehotencoder.fit_transform(df_user_merged).toarray()
+df = x[: , 1:] # Take away one dummy variable to avoid multicolinearity
+"""
+
+df_user_merged_dum = pd.get_dummies(df_user_merged, drop_first = True)
+
+
+
+x = df_user_merged_dum.iloc[:,[0,1,2,3,5,6,7,8]].values
+y = df_user_merged_dum.iloc[:,4].values
 
 
 
 
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+"""from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 labelencoder_X_1 = LabelEncoder()
 x[:, 0] = labelencoder_X_1.fit_transform(x[:,0])
 
@@ -55,7 +70,7 @@ x = onehotencoder.fit_transform(x).toarray()
 x = x[: , 1:] # Take away one dummy variable to avoid multicolinearity
 
 
-
+""""
 
 
 from sklearn.ensemble import RandomForestClassifier
